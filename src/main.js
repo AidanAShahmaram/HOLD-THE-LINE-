@@ -18,7 +18,7 @@ document.body.appendChild(renderer.domElement);
 
 // ---------- Scene ----------
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0b1020);
+scene.background = new THREE.Color(0x87CEEB);
 
 // ---------- Camera (perspective) ----------
 const camera = new THREE.PerspectiveCamera(
@@ -150,7 +150,6 @@ const player = {
 };
 
 // ---------- Animation loop ----------
-const clock = new THREE.Clock();
 
 function animate() {
   requestAnimationFrame(animate);
@@ -191,6 +190,14 @@ const elephant_2 = await loadLevelOBJ({
   scale: .1, // you may need 0.01 or 0.1
   position: new THREE.Vector3(-303.978, 1032.740, -317.149),
   rotation: new THREE.Euler(3*Math.PI/2, 0, 0),
+  fitCamera: false,
+});
+
+const cannon = await loadLevelOBJ({
+  objPath: "/models/cannon.obj",
+  scale: 5, // you may need 0.01 or 0.1
+  position: new THREE.Vector3(-70, 735, 410),
+  rotation: new THREE.Euler(Math.PI/16, -Math.PI * 31/32, 0),
   fitCamera: false,
 });
 
@@ -237,6 +244,3 @@ window.addEventListener("pointerdown", (e) => {
     console.log("Mesh:", hit.object.name || hit.object.uuid);
   }
 });
-
-
-
