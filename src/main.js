@@ -150,10 +150,13 @@ const player = {
 };
 
 // ---------- Animation loop ----------
-
+let cannonballs = [];
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
+  for (const ball of cannonballs) {
+    ball.mesh.position.add(new THREE.Vector3().copy(ball.velocity));
+  }
 }
 
 
@@ -201,8 +204,11 @@ const cannon = await loadLevelOBJ({
   fitCamera: false,
 });
 
+const cannonballGeom = new THREE.SphereGeometry(2, 24, 24);
+const cannonballMat = new THREE.MeshStandardMaterial({ color: 0x303030, roughness: 100 });
 
-
+const ball = new THREE.Mesh(cannonballGeom, cannonballMat);
+ball.position.copy(new THREE.Vector3(-70, 740, 405));
 
 
 
@@ -234,6 +240,11 @@ window.addEventListener("pointerdown", (e) => {
 
     marker.visible = true;
     marker.position.copy(p);
+    cannonballs.push({
+      mesh: ball.clone(),
+      velocity: new THREE.Vector3().subVectors(p, new THREE.Vector3(-70, 740, 405)).setLength(5)
+    });
+    scene.add(cannonballs[cannonballs.length - 1].mesh);
 
     console.log(
       "Castle point (world):",
